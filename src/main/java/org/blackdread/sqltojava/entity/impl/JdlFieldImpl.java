@@ -24,32 +24,33 @@ public class JdlFieldImpl implements JdlField {
     private final String name;
     private final String enumEntityName;
     private final boolean isRequired;
+    private final boolean isPk;
     private final String comment;
     private final Integer min;
     private final Integer max;
     private final String pattern;
 
     public JdlFieldImpl(final JdlFieldEnum type, final String name, final boolean isRequired) {
-        this(type, name, isRequired, null, null, null, null, null);
+        this(type, name, isRequired, null, null, null, null, null,false);
     }
 
     public JdlFieldImpl(final JdlFieldEnum type, final String name, final boolean isRequired, @Nullable final String comment) {
-        this(type, name, isRequired, comment, null, null, null, null);
+        this(type, name, isRequired, comment, null, null, null, null,false);
     }
 
     public JdlFieldImpl(final JdlFieldEnum type, final String name, final boolean isRequired, @Nullable final String comment, @Nullable final Integer min) {
-        this(type, name, isRequired, comment, min, null, null, null);
+        this(type, name, isRequired, comment, min, null, null, null,false);
     }
 
     public JdlFieldImpl(final JdlFieldEnum type, final String name, final boolean isRequired, @Nullable final String comment, @Nullable final Integer min, @Nullable final Integer max) {
-        this(type, name, isRequired, comment, min, max, null, null);
+        this(type, name, isRequired, comment, min, max, null, null,false);
     }
 
     public JdlFieldImpl(final JdlFieldEnum type, final String name, final boolean isRequired, @Nullable final String comment, @Nullable final Integer min, @Nullable final Integer max, @Nullable final String pattern) {
-        this(type, name, isRequired, comment, min, max, pattern, null);
+        this(type, name, isRequired, comment, min, max, pattern, null,false);
     }
 
-    public JdlFieldImpl(final JdlFieldEnum type, final String name, final boolean isRequired, @Nullable final String comment, @Nullable final Integer min, @Nullable final Integer max, @Nullable final String pattern, @Nullable final String enumEntityName) {
+    public JdlFieldImpl(final JdlFieldEnum type, final String name, final boolean isRequired, @Nullable final String comment, @Nullable final Integer min, @Nullable final Integer max, @Nullable final String pattern, @Nullable final String enumEntityName,final boolean isPk) {
         this.type = type;
         this.name = name;
         this.isRequired = isRequired;
@@ -58,6 +59,7 @@ public class JdlFieldImpl implements JdlField {
         this.max = max;
         this.pattern = pattern;
         this.enumEntityName = enumEntityName;
+        this.isPk = isPk;
     }
 
     @Override
@@ -111,5 +113,10 @@ public class JdlFieldImpl implements JdlField {
             ", max=" + max +
             ", pattern='" + pattern + '\'' +
             '}';
+    }
+
+    @Override
+    public boolean isPk() {
+        return isPk;
     }
 }

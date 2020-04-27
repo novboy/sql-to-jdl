@@ -14,6 +14,8 @@ public interface JdlEntity {
 
     Optional<String> getComment();
 
+    String getTable();
+
     boolean isEnum();
 
     /**

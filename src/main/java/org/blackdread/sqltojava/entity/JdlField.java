@@ -37,4 +37,6 @@ public interface JdlField {
 
     Optional<String> getPattern();
 
+    boolean isPk();
+
 }

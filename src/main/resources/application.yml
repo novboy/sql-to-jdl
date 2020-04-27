@@ -1,9 +1,9 @@
 spring:
     datasource:
             type: com.zaxxer.hikari.HikariDataSource
-            url: jdbc:mysql://localhost:3306/?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
-            username: root
-            password:
+            url: jdbc:mysql://sccn1048.bmwgroup.net:3306/?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+            username: MASTER_DATA_FULL_LOAD
+            password: 1qaz2wsx
             hikari:
                 data-source-properties:
                     cachePrepStmts: true
@@ -15,10 +15,20 @@ spring:
 
 
 application:
-    database-to-export: my_database_name
+    database-to-export: MASTER_DATA_FULL_LOAD
     ignored-table-names:
         - databasechangelog
+        - LKUP_MAIN
+        - DATABASECHANGELOG
+        - DATABASECHANGELOGLOCK
         - databasechangeloglock
+        - jhi_authority
+        - jhi_user
+        - jhi_date_time_wrapper
+        - jhi_persistent_audit_event
+        - jhi_persistent_audit_evt_data
+        - jhi_user_authority
+        - interface_log
         - QRTZ_BLOB_TRIGGERS
         - QRTZ_CALENDARS
         - QRTZ_CRON_TRIGGERS
@@ -31,5 +41,5 @@ application:
         - QRTZ_SIMPROP_TRIGGERS
         - QRTZ_TRIGGERS
     export:
-        path: ./my-project-jdl.jh
+        path: ./MASTER_DATA_FULL_LOAD.jh
         type: jdl

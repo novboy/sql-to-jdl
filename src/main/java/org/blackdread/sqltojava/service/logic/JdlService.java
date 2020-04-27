@@ -68,10 +68,19 @@ public class JdlService {
         return new JdlEntityImpl(
             getEntityNameFormatted(entry.getKey().getName()),
             fields,
-            entry.getKey().getComment().orElse(null),
+            getComment(fields),
             sqlService.isEnumTable(entry.getKey().getName()),
             sqlService.isPureManyToManyTable(entry.getKey().getName()),
-            relations);
+            relations,entry.getKey().getName());
+    }
+
+    private static String getComment(final List<JdlField> fields){
+        List<JdlField> cols = fields.stream().filter(it-> it.isPk()).collect(Collectors.toList());
+        if(!cols.isEmpty()){
+            return cols.get(0).getComment().orElse(null);
+        } else {
+            return null;
+        }
     }
 
     private static String getEntityNameFormatted(final String name) {
@@ -86,7 +95,7 @@ public class JdlService {
         final String name;
         JdlFieldEnum jdlType;
         final String enumEntityName;
-        final String comment;
+        String comment;
         String pattern = null;
 
         if (sqlService.isEnumTable(column.getTable().getName()))
@@ -106,11 +115,26 @@ public class JdlService {
             comment = column.getComment()
                 .map(comment1 -> tableOfForeignKey.getComment().map(c -> comment1 + ". " + c).orElse(comment1))
                 .orElse(tableOfForeignKey.getComment().orElse(null));
+            if(comment==null){
+                comment =  "";
+            }
+            comment+=" @com.fasterxml.jackson.annotation.JsonProperty(\""+tableOfForeignKey.getName() +"\")";
         } else {
             jdlType = sqlJdlTypeService.sqlTypeToJdlType(column.getType());
-            name = SqlUtils.changeToCamelCase(column.getName());
+            if(column.isPrimaryKey()){
+                name = "id";
+            } else {
+                name = SqlUtils.changeToCamelCase(column.getName());
+            }
             enumEntityName = null;
             comment = column.getComment().orElse(null);
+            if(comment==null){
+                comment =  "";
+            }
+            comment+=" @com.fasterxml.jackson.annotation.JsonProperty(\""+column.getName() +"\") ";
+            if(column.isPrimaryKey()){
+                comment +=  "  @Column(name=\""+column.getName()+"\")";
+            }
         }
 
 
@@ -148,7 +172,8 @@ public class JdlService {
             min,
             max,
             pattern,
-            enumEntityName
+            enumEntityName,
+            column.isPrimaryKey()
         ));
     }
 

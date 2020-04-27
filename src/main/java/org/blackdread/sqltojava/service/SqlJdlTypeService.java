@@ -81,9 +81,9 @@ public class SqlJdlTypeService {
         if (isTypeContained(jdlTextBlob(), type)) {
             return JdlFieldEnum.TEXT_BLOB;
         }
-
+        // return long
         if (isTypeContained(jdlInteger(), type)) {
-            return JdlFieldEnum.INTEGER;
+            return JdlFieldEnum.LONG;
         }
 
         if (isTypeContained(jdlLong(), type)) {

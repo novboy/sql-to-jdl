@@ -85,6 +85,9 @@ public final class JdlUtils {
         else
             builder.append("entity ");
         builder.append(entity.getName());
+        builder.append("(");
+        builder.append(entity.getTable());
+        builder.append(")");
         builder.append(" {\n");
         for (final JdlField field : entity.getFields()) {
             builder.append(writeField(field));
